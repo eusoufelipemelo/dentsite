@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="DentSite favicon">
+  <!-- Rounded square background -->
+  <rect width="32" height="32" rx="7" fill="#040E1F"/>
+  <!-- Subtle glow bg -->
+  <rect width="32" height="32" rx="7" fill="rgba(61,224,192,0.06)"/>
+  <!-- Tiffany tooth, scaled to fit 32x32 (original path in 54x54 space → scale ~0.52, centered) -->
+  <g transform="translate(3.5, 2) scale(0.465)">
+    <path d="M27 8C20 8 17 4 12 4C6 4 4 9 4 16C4 28 9 50 14 50C18 50 18 38 27 38C36 38 36 50 40 50C45 50 50 28 50 16C50 9 48 4 42 4C37 4 34 8 27 8Z" fill="#3DE0C0"/>
+    <circle cx="38" cy="17" r="4.5" fill="#040E1F"/>
+  </g>
+</svg>
