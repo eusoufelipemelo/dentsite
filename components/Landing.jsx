@@ -141,6 +141,11 @@ export default function Landing() {
         cardInstr.style.display = 'block';
         payBtn.style.display = 'flex';
         payBtn.href = linkMensal;
+        // Garante a navegação mesmo se algum bloqueador interferir no <a target>
+        payBtn.onclick = (ev) => {
+          ev.preventDefault();
+          window.location.href = linkMensal;
+        };
       }
       document.getElementById('modal-wa-link').href = WA_URL;
       const bg = document.getElementById('modal-bg');
@@ -317,7 +322,7 @@ export default function Landing() {
 
       
             <p id="modal-card-instructions" className="modal-instructions">Clique em <strong style={{ color: 'var(--white)' }}>Ir para o pagamento</strong>, realize a assinatura e depois clique em <strong style={{ color: '#25D366' }}>Já paguei → WhatsApp</strong> para confirmar com a nossa equipe e começarmos seu site.</p>
-            <a id="modal-pay-link" href="#" target="_blank" rel="noopener" className="modal-btn-pay">
+            <a id="modal-pay-link" href="#" rel="noopener" className="modal-btn-pay">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
               Ir para o pagamento
             </a>
