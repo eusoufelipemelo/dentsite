@@ -33,10 +33,10 @@ export default function Termos() {
 
       <div className="lsec">
         <h2><span className="num">03</span> Assinatura e contrato anual</h2>
-        <p>O modelo da DentSite é de <strong>assinatura mensal de R$ 100,00 com contrato anual</strong>. Não há custo de criação — a mensalidade cobre o pacote completo descrito acima. Você pode optar entre:</p>
+        <p>O modelo da DentSite é de <strong>assinatura mensal com contrato anual</strong>. Não há custo de criação — a mensalidade cobre o pacote completo descrito acima. Você pode optar entre:</p>
         <ul>
-          <li><strong>Cartão de crédito</strong> — assinatura mensal recorrente de R$ 100,00;</li>
-          <li><strong>PIX à vista</strong> — assinatura anual com 3 meses grátis (R$ 900,00 à vista).</li>
+          <li><strong>Cartão de crédito</strong> — assinatura mensal recorrente;</li>
+          <li><strong>PIX à vista</strong> — assinatura anual com desconto.</li>
         </ul>
         <p>O <strong>contrato é de 12 meses</strong> a partir da adesão. Esse modelo é o que viabiliza a oferta sem custo de criação, com manutenção, suporte e atualizações ao longo de todo o período. Não trabalhamos com boleto bancário.</p>
       </div>

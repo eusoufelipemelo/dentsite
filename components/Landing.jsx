@@ -58,8 +58,8 @@ export default function Landing() {
 
     // ── PLANOS / CUPOM ──
     const plans = {
-      mensal: { label: 'Assinatura mensal', total: 'R$ 100/mês', price: 100, priceDisc: 100, sfx: '/mês', badge: 'R$ 100/mês' },
-      anual: { label: 'Assinatura anual no PIX', total: 'R$ 900 à vista', price: 900, priceDisc: 900, sfx: ' à vista', badge: 'R$ 900 à vista' },
+      mensal: { label: 'Assinatura mensal', total: 'R$ 297/mês', price: 297, priceDisc: 100, sfx: '/mês', badge: 'R$ 297/mês' },
+      anual: { label: 'Assinatura anual no PIX', total: 'R$ 2.670 à vista', price: 2670, priceDisc: 900, sfx: ' à vista', badge: 'R$ 2.670 à vista' },
     };
     let coupon = null;
     const sel = () => plans[document.querySelector('input[name=plano]:checked').value];
@@ -80,12 +80,15 @@ export default function Landing() {
       const v = document.getElementById('ci').value.trim().toUpperCase();
       const msg = document.getElementById('cmsg');
       msg.className = 'cmsg';
-      if (!v) {
+      if (v === 'DRFREDCRUVINEL') {
+        coupon = v; msg.className = 'cmsg ok';
+        msg.textContent = '✓ Cupom DRFREDCRUVINEL aplicado! Assinatura mensal por R$ 100/mês (ou R$ 900 no PIX anual).';
+      } else if (!v) {
         msg.className = 'cmsg er';
         msg.textContent = '× Digite um cupom antes de clicar em Aplicar.';
       } else {
         coupon = null; msg.className = 'cmsg er';
-        msg.textContent = '× Cupom inválido ou expirado. Verifique o código e tente novamente.';
+        msg.textContent = '× Cupom inválido. Verifique o código e tente novamente.';
       }
       render();
     };
@@ -285,7 +288,7 @@ export default function Landing() {
                 <strong id="modal-plan-name">Assinatura mensal</strong>
                 <span>Contrato anual · Tudo incluído</span>
               </div>
-              <div className="modal-plan-r"><span id="modal-plan-price">R$ 100</span><sub id="modal-plan-sfx">/mês</sub></div>
+              <div className="modal-plan-r"><span id="modal-plan-price">R$ 297</span><sub id="modal-plan-sfx">/mês</sub></div>
             </div>
             <div className="modal-divider"></div>
 
@@ -385,14 +388,14 @@ export default function Landing() {
           <div className="hero-in">
             <div className="hero-content">
               <div className="hero-badge"><span className="dot"></span>Site por Assinatura · Tecnologia LLM + IA</div>
-              <h1 className="hero-h1">Seu consultório com um site exclusivo <span className="hi">por R$ 100 por mês.</span></h1>
+              <h1 className="hero-h1">Seu consultório com um site exclusivo <span className="hi">por assinatura. No ar em 3 dias úteis.</span></h1>
               <p className="hero-sub">Como uma assinatura de streaming, mas para a sua clínica. <strong>Sem custo de criação.</strong> Você paga uma mensalidade simples que cobre tudo: site totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. Contrato anual.</p>
               <div className="hero-acts">
                 <a href="#planos" className="btn btn-p btn-lg">Quero meu site agora <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                 <a href="#como-funciona" className="btn btn-o">Ver como funciona</a>
               </div>
               <div className="hero-mc">
-                <span>R$ 100/mês, tudo incluído</span>
+                <span>Tudo incluído na assinatura</span>
                 <span>Pronto em 3 dias úteis</span>
                 <span>Garantia de 7 dias</span>
               </div>
@@ -625,7 +628,7 @@ export default function Landing() {
         <div className="wrap">
           <div className="rv" style={{ textAlign: 'center' }}>
             <p className="lbl">Assinatura</p>
-            <h2 className="h2">Site por Assinatura.<br />Tudo por R$ 100 por mês.</h2>
+            <h2 className="h2">Site por Assinatura.<br />Sem custo de criação.</h2>
             <p className="sub" style={{ maxWidth: '600px', margin: '0 auto' }}>Como uma assinatura de streaming, mas para o seu consultório. Sem custo de criação, sem dor de cabeça. A mensalidade cobre tudo: site totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. Contrato anual.</p>
           </div>
           <div className="oferta-wrap rv d2">
@@ -633,7 +636,7 @@ export default function Landing() {
               <div className="oferta-hd">
                 <p className="oferta-lbl">Plano DentSite</p>
                 <p className="oferta-from">Assinatura mensal a partir de</p>
-                <div className="oferta-price" id="price-show">R$ 100<sub>/mês</sub></div>
+                <div className="oferta-price" id="price-show">R$ 297<sub>/mês</sub></div>
                 <p className="oferta-period">Contrato anual · Sem custo de criação</p>
               </div>
               <div className="oferta-bd">
@@ -644,15 +647,15 @@ export default function Landing() {
                     <label htmlFor="mensal" className="po-lbl">
                       <span className="po-t">💳 Assinatura mensal</span>
                       <span className="po-d">Cartão recorrente · contrato anual</span>
-                      <span className="po-badge" id="pm">R$ 100/mês</span>
+                      <span className="po-badge" id="pm">R$ 297/mês</span>
                     </label>
                   </div>
                   <div className="po">
                     <input type="radio" name="plano" id="anual" value="anual" />
                     <label htmlFor="anual" className="po-lbl">
                       <span className="po-t">⚡ Anual no PIX</span>
-                      <span className="po-d">À vista — 3 meses grátis</span>
-                      <span className="po-badge" style={{ color: 'var(--gold)' }} id="pa">R$ 900 à vista</span>
+                      <span className="po-d">À vista — 2 meses grátis</span>
+                      <span className="po-badge" style={{ color: 'var(--gold)' }} id="pa">R$ 2.670 à vista</span>
                     </label>
                   </div>
                 </div>
@@ -668,7 +671,7 @@ export default function Landing() {
                   <div className="or"><span>Plano selecionado</span><span id="sp">Assinatura mensal</span></div>
                   <div className="or"><span>Custo de criação</span><span style={{ color: 'var(--tiffany)', fontWeight: '700' }}>R$ 0</span></div>
                   <div className="or" id="drow" style={{ display: 'none' }}><span>Desconto cupom</span><span className="dk" id="damt"></span></div>
-                  <div className="or or-total"><span>Total</span><span id="stotal">R$ 100/mês</span></div>
+                  <div className="or or-total"><span>Total</span><span id="stotal">R$ 297/mês</span></div>
                 </div>
 
                 <button type="button" className="btn btn-p btn-full">Iniciar minha assinatura 🔒</button>
@@ -689,11 +692,12 @@ export default function Landing() {
             <h2 className="h2" style={{ color: 'var(--abyss)' }}>Perguntas frequentes</h2>
           </div>
           <div className="faq-list">
-            <div className="fi rv"><button className="fq">Como o site pode ser sem custo de criação?<span className="fi-ico">+</span></button><div className="fa"><p>Porque o nosso modelo é <strong>por assinatura</strong>, como um Netflix. Em vez de você pagar um valor alto pela criação, paga uma <strong>mensalidade simples de R$ 100</strong> que cobre tudo: design totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. O contrato anual é o que torna esse modelo possível.</p></div></div>
+            <div className="fi rv"><button className="fq">Como o site pode ser sem custo de criação?<span className="fi-ico">+</span></button><div className="fa"><p>Porque o nosso modelo é <strong>por assinatura</strong>, como um Netflix. Em vez de você pagar um valor alto pela criação, paga uma <strong>mensalidade simples</strong> que cobre tudo: design totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. O contrato anual é o que torna esse modelo possível.</p></div></div>
             <div className="fi rv"><button className="fq">Em quanto tempo meu site fica pronto?<span className="fi-ico">+</span></button><div className="fa"><p>O prazo de entrega é de <strong>3 dias úteis</strong> após o envio completo do briefing e das fotos. Você recebe um link de revisão e só vai ao ar com a sua aprovação.</p></div></div>
             <div className="fi rv"><button className="fq">E se eu não gostar? Tem garantia?<span className="fi-ico">+</span></button><div className="fa"><p>Sim. Você tem <strong>garantia de 7 dias com reembolso de 100%</strong>. Se dentro desse período você não estiver satisfeito, é só chamar o suporte e devolvemos todo o valor pago, sem burocracia.</p></div></div>
-            <div className="fi rv"><button className="fq">Como funciona o pagamento?<span className="fi-ico">+</span></button><div className="fa"><p>Você escolhe entre <strong>cartão de crédito</strong> (assinatura recorrente de R$ 100/mês) ou <strong>PIX à vista</strong> (assinatura anual com 3 meses grátis — R$ 900 no PIX). Não trabalhamos com boleto.</p></div></div>
+            <div className="fi rv"><button className="fq">Como funciona o pagamento?<span className="fi-ico">+</span></button><div className="fa"><p>Você escolhe entre <strong>cartão de crédito</strong> (assinatura mensal recorrente) ou <strong>PIX à vista</strong> (assinatura anual com 2 meses grátis). Não trabalhamos com boleto.</p></div></div>
             <div className="fi rv"><button className="fq">O que está incluso na assinatura?<span className="fi-ico">+</span></button><div className="fa"><p>Tudo. Site totalmente personalizado para a sua clínica, hospedagem em servidor próprio, certificado SSL, otimização SSEO + GEO, WhatsApp flutuante, Google Maps, formulário de contato, atualizações e suporte contínuo. Não há custos extras.</p></div></div>
+            <div className="fi rv"><button className="fq">Posso usar um cupom de desconto?<span className="fi-ico">+</span></button><div className="fa"><p>Sim! No checkout há um campo para inserir o cupom antes de finalizar. Aplique antes de concluir o pagamento para ver o desconto refletido no resumo.</p></div></div>
             <div className="fi rv"><button className="fq">Como funciona o contrato anual?<span className="fi-ico">+</span></button><div className="fa"><p>O contrato é de <strong>12 meses</strong>, como uma assinatura anual de qualquer serviço digital. Esse modelo é o que viabiliza a oferta sem custo de criação, com manutenção e suporte contínuos. Você tem 7 dias de garantia para testar sem risco e, depois desse período, o contrato anual passa a vigorar.</p></div></div>
             <div className="fi rv"><button className="fq">Eu sou dono do meu site?<span className="fi-ico">+</span></button><div className="fa"><p>O conteúdo (textos, fotos e marca) é todo seu. A estrutura técnica e a hospedagem são mantidas pela DentSite enquanto durar a assinatura.</p></div></div>
             <div className="fi rv"><button className="fq">Que tecnologia vocês usam?<span className="fi-ico">+</span></button><div className="fa"><p>Construímos com <strong>LLMs (IA)</strong> e <strong>WebDev 3.0</strong>, com otimização SSEO e GEO — para o Google e também para as buscas por inteligências artificiais como ChatGPT e Gemini.</p></div></div>
@@ -716,12 +720,12 @@ export default function Landing() {
           <div className="rv">
             <p className="lbl" style={{ textAlign: 'center' }}>Não perca mais tempo</p>
             <h2 className="h2" style={{ textAlign: 'center', fontSize: 'clamp(30px,5vw,56px)' }}>Seu próximo paciente está pesquisando agora.<br /><span style={{ color: 'var(--tiffany)' }}>Apareça para ele.</span></h2>
-            <p className="cta-sub">R$ 100 por mês, tudo incluído. Pronto em 3 dias úteis. Garantia de 7 dias.</p>
+            <p className="cta-sub">Sem custo de criação. Pronto em 3 dias úteis. Garantia de 7 dias.</p>
             <div style={{ textAlign: 'center' }}>
               <a href="#planos" className="btn btn-p btn-lg" style={{ fontSize: '19px', padding: '24px 60px' }}>Quero meu site agora <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
             <div className="cta-mc">
-              <span>R$ 100/mês, tudo incluído</span>
+              <span>Sem custo de criação</span>
               <span>Pronto em 3 dias úteis</span>
               <span>Garantia de 7 dias</span>
             </div>
