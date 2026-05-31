@@ -21,28 +21,29 @@ export default function Termos() {
 
       <div className="lsec">
         <h2><span className="num">02</span> O serviço contratado</h2>
-        <p>Mediante contratação, a DentSite desenvolve um site institucional (one page) para a sua clínica, com base nas informações e materiais fornecidos por você no briefing. O serviço inclui:</p>
+        <p>A DentSite funciona em modelo de <strong>assinatura</strong>. Mediante adesão, desenvolvemos um site institucional (one page) totalmente personalizado para a sua clínica, com base nas informações e materiais fornecidos por você no briefing. A assinatura inclui:</p>
         <ul>
-          <li>Criação do site (sem taxa de criação);</li>
-          <li>Hospedagem e manutenção técnica enquanto o plano estiver vigente;</li>
-          <li>Certificado de segurança (SSL) e otimizações de SEO;</li>
+          <li>Criação do site (sem custo de criação);</li>
+          <li>Hospedagem e manutenção técnica enquanto a assinatura estiver vigente;</li>
+          <li>Certificado de segurança (SSL) e otimizações de SEO e GEO;</li>
+          <li>Suporte e atualizações contínuas;</li>
           <li>Entrega em até <strong>3 dias úteis</strong> após o envio completo do briefing e das fotos.</li>
         </ul>
       </div>
 
       <div className="lsec">
-        <h2><span className="num">03</span> Pagamento e fidelidade</h2>
-        <p>A criação do site é gratuita. Você paga apenas pela hospedagem, conforme o plano escolhido:</p>
+        <h2><span className="num">03</span> Assinatura e contrato anual</h2>
+        <p>O modelo da DentSite é de <strong>assinatura mensal de R$ 100,00 com contrato anual</strong>. Não há custo de criação — a mensalidade cobre o pacote completo descrito acima. Você pode optar entre:</p>
         <ul>
-          <li><strong>Cartão de crédito</strong> — assinatura mensal recorrente;</li>
-          <li><strong>PIX</strong> — plano anual pago à vista, com desconto.</li>
+          <li><strong>Cartão de crédito</strong> — assinatura mensal recorrente de R$ 100,00;</li>
+          <li><strong>PIX à vista</strong> — assinatura anual com 3 meses grátis (R$ 900,00 à vista).</li>
         </ul>
-        <p>A hospedagem possui <strong>fidelidade de 12 meses</strong>. Esse período viabiliza a oferta da criação sem custo e a manutenção da página no ar com performance e suporte. Não trabalhamos com boleto bancário.</p>
+        <p>O <strong>contrato é de 12 meses</strong> a partir da adesão. Esse modelo é o que viabiliza a oferta sem custo de criação, com manutenção, suporte e atualizações ao longo de todo o período. Não trabalhamos com boleto bancário.</p>
       </div>
 
       <div className="lsec">
         <h2><span className="num">04</span> Garantia de 7 dias</h2>
-        <p>Você conta com <strong>garantia de 7 dias</strong> a partir da contratação. Se, dentro desse prazo, não ficar satisfeito, basta entrar em contato com o suporte que reembolsamos <strong>100% do valor pago</strong>, sem burocracia. Após os 7 dias, passa a vigorar o período de fidelidade contratado.</p>
+        <p>Você conta com <strong>garantia de 7 dias</strong> a partir da adesão da assinatura. Se, dentro desse prazo, não ficar satisfeito, basta entrar em contato com o suporte que reembolsamos <strong>100% do valor pago</strong>, sem burocracia. Após os 7 dias, passa a vigorar o contrato anual.</p>
       </div>
 
       <div className="lsec">
@@ -57,7 +58,7 @@ export default function Termos() {
 
       <div className="lsec">
         <h2><span className="num">06</span> Propriedade do conteúdo</h2>
-        <p>O <strong>conteúdo</strong> (textos, fotos e marca) fornecido por você permanece de sua propriedade. A <strong>estrutura técnica e a hospedagem</strong> são desenvolvidas e mantidas pela DentSite enquanto durar o plano contratado.</p>
+        <p>O <strong>conteúdo</strong> (textos, fotos e marca) fornecido por você permanece de sua propriedade. A <strong>estrutura técnica e a hospedagem</strong> são desenvolvidas e mantidas pela DentSite enquanto durar a assinatura.</p>
       </div>
 
       <div className="lsec">

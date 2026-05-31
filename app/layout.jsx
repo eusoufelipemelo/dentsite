@@ -4,9 +4,9 @@ const SITE = 'https://dentsite-lp.vercel.app';
 
 export const metadata = {
   metadataBase: new URL(SITE),
-  title: 'DentSite — Site Profissional para Dentistas em 3 Dias Úteis',
+  title: 'DentSite — Site Odontológico por Assinatura · R$ 100/mês',
   description:
-    'Site profissional para sua clínica odontológica em 3 dias úteis. Sem taxa de criação. Otimizado para Google e IA. Garantia de 7 dias.',
+    'Site totalmente personalizado para sua clínica odontológica por uma assinatura simples. R$ 100 por mês, sem custo de criação. Otimizado para Google e IA. Garantia de 7 dias.',
   icons: {
     icon: '/files/dentsite-favicon.svg',
     shortcut: '/files/dentsite-favicon.svg',
@@ -15,9 +15,9 @@ export const metadata = {
     type: 'website',
     url: SITE + '/',
     siteName: 'DentSite',
-    title: 'DentSite — Seu site profissional no ar em 3 dias úteis',
+    title: 'DentSite — Site odontológico por assinatura · R$ 100/mês',
     description:
-      'Criamos o site da sua clínica odontológica sem taxa de criação. Otimizado para Google + IA. Pronto em 3 dias úteis. Garantia de 7 dias.',
+      'Site exclusivo para sua clínica odontológica por uma assinatura simples de R$ 100/mês. Sem custo de criação. Otimizado para Google + IA. Pronto em 3 dias úteis.',
     images: [
       {
         url: '/files/dentsite-og.png',
@@ -30,9 +30,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DentSite — Seu site profissional no ar em 3 dias úteis',
+    title: 'DentSite — Site odontológico por assinatura · R$ 100/mês',
     description:
-      'Criamos o site da sua clínica sem taxa de criação. Pronto em 3 dias úteis. Garantia de 7 dias.',
+      'Site exclusivo para a sua clínica por uma assinatura simples. R$ 100/mês, sem custo de criação. Pronto em 3 dias úteis.',
     images: ['/files/dentsite-og.png'],
   },
 };
