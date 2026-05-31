@@ -59,7 +59,7 @@ export default function Landing() {
     // ── PLANOS / CUPOM ──
     const plans = {
       mensal: { label: 'Assinatura mensal', total: 'R$ 297/mês', price: 297, priceDisc: 100, sfx: '/mês', badge: 'R$ 297/mês' },
-      anual: { label: 'Assinatura anual no PIX', total: 'R$ 2.670 à vista', price: 2670, priceDisc: 900, sfx: ' à vista', badge: 'R$ 2.670 à vista' },
+      anual: { label: 'Assinatura anual no PIX', total: 'R$ 3.264 à vista', price: 3264, priceDisc: 900, sfx: ' à vista', badge: 'R$ 3.264 à vista' },
     };
     let coupon = null;
     const sel = () => plans[document.querySelector('input[name=plano]:checked').value];
@@ -108,8 +108,12 @@ export default function Landing() {
     });
 
     // ── CHECKOUT MODAL ──
-    const LINK_MENSAL = 'https://invoice.infinitepay.io/outboxgroup/UgloVR6DHF';
-    const PIX_STRING = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup5204000053039865406900.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCC8bcd9JViiPr905Zk0kwEF63040B38';
+    // Links sem cupom (preço cheio R$ 297/mês ou R$ 3.264 anual à vista)
+    const LINK_MENSAL_FULL = 'https://link.infinitepay.io/outboxgroup/Ri1D-XHsQKftV02-3564,00';
+    const PIX_FULL = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup52040000530398654073264.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCCu0xk7szzgZRzJUoU0qmV863049F26';
+    // Links com cupom DRFREDCRUVINEL (R$ 100/mês ou R$ 900 anual à vista)
+    const LINK_MENSAL_DISC = 'https://link.infinitepay.io/outboxgroup/Ri1D-ItE6M9DSLf-1200,00';
+    const PIX_DISC = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup5204000053039865406900.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCCQXPP28xgx47Kr8dFKh6te63043664';
     const WA_URL = 'https://wa.me/5547996597775?text=' + encodeURIComponent('Olá, vi que veio através da DentSite, como posso ajudar?');
     const openModal = () => {
       const p = sel();
@@ -122,17 +126,21 @@ export default function Landing() {
       const pixSection = document.getElementById('modal-pix');
       const cardInstr = document.getElementById('modal-card-instructions');
       const payBtn = document.getElementById('modal-pay-link');
+      // Seleciona link/PIX conforme cupom DRFREDCRUVINEL
+      const pixString = coupon ? PIX_DISC : PIX_FULL;
+      const linkMensal = coupon ? LINK_MENSAL_DISC : LINK_MENSAL_FULL;
       if (isAnual) {
         pixSection.classList.add('active');
         cardInstr.style.display = 'none';
         payBtn.style.display = 'none';
-        document.getElementById('pix-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=3DE0C0&bgcolor=040E1F&qzone=2&data=' + encodeURIComponent(PIX_STRING);
-        document.getElementById('pix-code-txt').textContent = PIX_STRING;
+        document.getElementById('pix-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=3DE0C0&bgcolor=040E1F&qzone=2&data=' + encodeURIComponent(pixString);
+        document.getElementById('pix-code-txt').textContent = pixString;
+        document.getElementById('pix-lbl').textContent = `PIX Copia e Cola — R$ ${priceVal.toLocaleString('pt-BR')},00`;
       } else {
         pixSection.classList.remove('active');
         cardInstr.style.display = 'block';
         payBtn.style.display = 'flex';
-        payBtn.href = LINK_MENSAL;
+        payBtn.href = linkMensal;
       }
       document.getElementById('modal-wa-link').href = WA_URL;
       const bg = document.getElementById('modal-bg');
@@ -155,7 +163,9 @@ export default function Landing() {
       document.body.style.overflow = 'hidden';
     };
     const copyPix = () => {
-      navigator.clipboard.writeText(PIX_STRING).then(() => {
+      // Lê o PIX exibido atualmente (depende do cupom + plano)
+      const code = document.getElementById('pix-code-txt').textContent || '';
+      navigator.clipboard.writeText(code).then(() => {
         const btn = document.getElementById('pix-copy-btn');
         btn.textContent = '✓ Copiado!';
         btn.classList.add('copied');
@@ -294,7 +304,7 @@ export default function Landing() {
 
       
             <div className="modal-pix" id="modal-pix">
-              <p className="pix-lbl">PIX Copia e Cola — R$ 900,00</p>
+              <p className="pix-lbl" id="pix-lbl">PIX Copia e Cola</p>
               <div className="pix-qr">
                 <img id="pix-qr-img" alt="QR Code PIX" width="164" height="164" />
               </div>
@@ -654,8 +664,8 @@ export default function Landing() {
                     <input type="radio" name="plano" id="anual" value="anual" />
                     <label htmlFor="anual" className="po-lbl">
                       <span className="po-t">⚡ Anual no PIX</span>
-                      <span className="po-d">À vista — 2 meses grátis</span>
-                      <span className="po-badge" style={{ color: 'var(--gold)' }} id="pa">R$ 2.670 à vista</span>
+                      <span className="po-d">À vista — 1 mês grátis</span>
+                      <span className="po-badge" style={{ color: 'var(--gold)' }} id="pa">R$ 3.264 à vista</span>
                     </label>
                   </div>
                 </div>
@@ -695,7 +705,7 @@ export default function Landing() {
             <div className="fi rv"><button className="fq">Como o site pode ser sem custo de criação?<span className="fi-ico">+</span></button><div className="fa"><p>Porque o nosso modelo é <strong>por assinatura</strong>, como um Netflix. Em vez de você pagar um valor alto pela criação, paga uma <strong>mensalidade simples</strong> que cobre tudo: design totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. O contrato anual é o que torna esse modelo possível.</p></div></div>
             <div className="fi rv"><button className="fq">Em quanto tempo meu site fica pronto?<span className="fi-ico">+</span></button><div className="fa"><p>O prazo de entrega é de <strong>3 dias úteis</strong> após o envio completo do briefing e das fotos. Você recebe um link de revisão e só vai ao ar com a sua aprovação.</p></div></div>
             <div className="fi rv"><button className="fq">E se eu não gostar? Tem garantia?<span className="fi-ico">+</span></button><div className="fa"><p>Sim. Você tem <strong>garantia de 7 dias com reembolso de 100%</strong>. Se dentro desse período você não estiver satisfeito, é só chamar o suporte e devolvemos todo o valor pago, sem burocracia.</p></div></div>
-            <div className="fi rv"><button className="fq">Como funciona o pagamento?<span className="fi-ico">+</span></button><div className="fa"><p>Você escolhe entre <strong>cartão de crédito</strong> (assinatura mensal recorrente) ou <strong>PIX à vista</strong> (assinatura anual com 2 meses grátis). Não trabalhamos com boleto.</p></div></div>
+            <div className="fi rv"><button className="fq">Como funciona o pagamento?<span className="fi-ico">+</span></button><div className="fa"><p>Você escolhe entre <strong>cartão de crédito</strong> (assinatura mensal recorrente) ou <strong>PIX à vista</strong> (assinatura anual com desconto). Não trabalhamos com boleto.</p></div></div>
             <div className="fi rv"><button className="fq">O que está incluso na assinatura?<span className="fi-ico">+</span></button><div className="fa"><p>Tudo. Site totalmente personalizado para a sua clínica, hospedagem em servidor próprio, certificado SSL, otimização SSEO + GEO, WhatsApp flutuante, Google Maps, formulário de contato, atualizações e suporte contínuo. Não há custos extras.</p></div></div>
             <div className="fi rv"><button className="fq">Posso usar um cupom de desconto?<span className="fi-ico">+</span></button><div className="fa"><p>Sim! No checkout há um campo para inserir o cupom antes de finalizar. Aplique antes de concluir o pagamento para ver o desconto refletido no resumo.</p></div></div>
             <div className="fi rv"><button className="fq">Como funciona o contrato anual?<span className="fi-ico">+</span></button><div className="fa"><p>O contrato é de <strong>12 meses</strong>, como uma assinatura anual de qualquer serviço digital. Esse modelo é o que viabiliza a oferta sem custo de criação, com manutenção e suporte contínuos. Você tem 7 dias de garantia para testar sem risco e, depois desse período, o contrato anual passa a vigorar.</p></div></div>
