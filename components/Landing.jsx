@@ -4,27 +4,39 @@ import { useEffect } from 'react';
 
 export default function Landing() {
   useEffect(() => {
+    // helper: roda quando o navegador estiver ocioso (depois do primeiro paint)
+    const idle = (fn) => {
+      if ('requestIdleCallback' in window) window.requestIdleCallback(fn, { timeout: 2500 });
+      else setTimeout(fn, 1500);
+    };
+
     // ── NAV + SCROLL PROGRESS + PARALLAX ──
     const nav = document.getElementById('nav');
     const prog = document.getElementById('prog');
     const o1 = document.querySelector('.o1');
     const o2 = document.querySelector('.o2');
     const grid = document.querySelector('.hero-grid');
+    // Cacheia a altura do documento para evitar reflow forçado a cada scroll
+    let docMax = document.documentElement.scrollHeight - window.innerHeight;
+    const recalcDoc = () => { docMax = document.documentElement.scrollHeight - window.innerHeight; };
+    window.addEventListener('resize', recalcDoc, { passive: true });
     const onScroll = () => {
       const sy = window.scrollY;
       if (nav) nav.classList.toggle('s', sy > 50);
-      if (prog) prog.style.width = (sy / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+      if (prog && docMax > 0) prog.style.width = (sy / docMax * 100) + '%';
       if (o1) o1.style.transform = `translateY(${sy * 0.28}px)`;
       if (o2) o2.style.transform = `translateY(${sy * -0.16}px)`;
       if (grid) grid.style.transform = `translateY(${sy * 0.08}px)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // ── CUSTOM CURSOR ──
-    const dot = document.getElementById('cur-dot');
-    const ring = document.getElementById('cur-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0, ringRAF;
-    if (window.matchMedia('(hover:hover)').matches && dot && ring) {
+    // ── CUSTOM CURSOR (adiado — decorativo, só em hover-capable) ──
+    let ringRAF;
+    idle(() => {
+      const dot = document.getElementById('cur-dot');
+      const ring = document.getElementById('cur-ring');
+      if (!window.matchMedia('(hover:hover)').matches || !dot || !ring) return;
+      let mx = 0, my = 0, rx = 0, ry = 0;
       document.addEventListener('mousemove', (e) => {
         mx = e.clientX; my = e.clientY;
         dot.style.left = mx + 'px'; dot.style.top = my + 'px';
@@ -40,7 +52,7 @@ export default function Landing() {
         el.addEventListener('mouseenter', () => { ring.classList.add('big'); dot.classList.add('big'); });
         el.addEventListener('mouseleave', () => { ring.classList.remove('big'); dot.classList.remove('big'); });
       });
-    }
+    });
 
     // ── SCROLL REVEAL ──
     const obs = new IntersectionObserver((entries) => {
@@ -98,12 +110,15 @@ export default function Landing() {
     if (ci) ci.addEventListener('keypress', (e) => { if (e.key === 'Enter') aplicar(); });
     render();
 
-    // ── GLASS CARD GLOW ──
-    document.querySelectorAll('.f-item').forEach((card) => {
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
-        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    // ── GLASS CARD GLOW (adiado — só hover-capable) ──
+    idle(() => {
+      if (!window.matchMedia('(hover:hover)').matches) return;
+      document.querySelectorAll('.f-item').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+          card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
       });
     });
 
@@ -227,31 +242,32 @@ export default function Landing() {
     const hc = document.querySelector('.hero-card');
     if (hc) cObs.observe(hc);
 
-    // ── MAGNETIC BUTTONS ──
-    document.querySelectorAll('.btn-p').forEach((btn) => {
-      btn.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width / 2) * 0.2;
-        const y = (e.clientY - r.top - r.height / 2) * 0.2;
-        btn.style.transform = `translate(${x}px,${y}px) translateY(-3px) scale(1.02)`;
-        btn.style.boxShadow = '0 0 60px rgba(61,224,192,.5)';
+    // ── MAGNETIC BUTTONS + 3D TILT (adiados — decorativos) ──
+    idle(() => {
+      if (!window.matchMedia('(hover:hover)').matches) return;
+      document.querySelectorAll('.btn-p').forEach((btn) => {
+        btn.addEventListener('mousemove', (e) => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.2;
+          const y = (e.clientY - r.top - r.height / 2) * 0.2;
+          btn.style.transform = `translate(${x}px,${y}px) translateY(-3px) scale(1.02)`;
+          btn.style.boxShadow = '0 0 60px rgba(61,224,192,.5)';
+        });
+        btn.addEventListener('mouseleave', () => { btn.style.transform = ''; btn.style.boxShadow = ''; });
       });
-      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; btn.style.boxShadow = ''; });
-    });
-
-    // ── 3D TILT ──
-    document.querySelectorAll('.tc,.stat,.hero-card').forEach((card) => {
-      card.addEventListener('mouseenter', () => { card.style.transition = 'transform .12s ease'; });
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = `perspective(700px) rotateX(${y * -8}deg) rotateY(${x * 8}deg) translateZ(10px)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transition = 'transform .5s ease';
-        card.style.transform = '';
-        setTimeout(() => (card.style.transition = ''), 500);
+      document.querySelectorAll('.tc,.stat,.hero-card').forEach((card) => {
+        card.addEventListener('mouseenter', () => { card.style.transition = 'transform .12s ease'; });
+        card.addEventListener('mousemove', (e) => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `perspective(700px) rotateX(${y * -8}deg) rotateY(${x * 8}deg) translateZ(10px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transition = 'transform .5s ease';
+          card.style.transform = '';
+          setTimeout(() => (card.style.transition = ''), 500);
+        });
       });
     });
 
@@ -277,6 +293,7 @@ export default function Landing() {
     // ── CLEANUP ──
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', recalcDoc);
       document.removeEventListener('keydown', onKey);
       obs.disconnect();
       cObs.disconnect();
@@ -563,7 +580,7 @@ export default function Landing() {
               <div className="tcard-top" style={{ marginTop: '16px', marginBottom: '0' }}>
                 <img className="tcard-av" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=120&h=120&fit=crop&q=80" alt="Dra. Camila Ferreira" loading="lazy" />
                 <div className="tcard-meta">
-                  <h4>Dra. Camila Ferreira</h4>
+                  <h3>Dra. Camila Ferreira</h3>
                   <span>CRO-SP 98.412 · Odontologia Estética</span>
                 </div>
               </div>
@@ -575,7 +592,7 @@ export default function Landing() {
               <div className="tcard-top" style={{ marginTop: '16px', marginBottom: '0' }}>
                 <img className="tcard-av" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=120&h=120&fit=crop&q=80" alt="Dr. Rafael Uchôa" loading="lazy" />
                 <div className="tcard-meta">
-                  <h4>Dr. Rafael Uchôa</h4>
+                  <h3>Dr. Rafael Uchôa</h3>
                   <span>CRO-MG 54.731 · Implantodontia</span>
                 </div>
               </div>
@@ -587,7 +604,7 @@ export default function Landing() {
               <div className="tcard-top" style={{ marginTop: '16px', marginBottom: '0' }}>
                 <img className="tcard-av" src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=120&h=120&fit=crop&q=80" alt="Dra. Juliana Prates" loading="lazy" />
                 <div className="tcard-meta">
-                  <h4>Dra. Juliana Prates</h4>
+                  <h3>Dra. Juliana Prates</h3>
                   <span>CRO-RJ 76.209 · Ortodontia</span>
                 </div>
               </div>

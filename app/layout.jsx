@@ -1,4 +1,18 @@
 import './globals.css';
+import { Sora, DM_Sans } from 'next/font/google';
+
+const sora = Sora({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-sora',
+  display: 'swap',
+});
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+});
 
 const SITE = 'https://dentsite-lp.vercel.app';
 
@@ -44,15 +58,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="pt-BR" className={`${sora.variable} ${dmSans.variable}`}>
       <body>{children}</body>
     </html>
   );
