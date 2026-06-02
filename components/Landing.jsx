@@ -432,12 +432,12 @@ export default function Landing() {
                 <span>Garantia de 7 dias</span>
               </div>
               <div className="hero-social">
-                <div className="av-cluster">
-                  <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=80&h=80&fit=crop&q=80" alt="Dentista" />
-                  <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=80&h=80&fit=crop&q=80" alt="Dentista" />
-                  <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=80&h=80&fit=crop&q=80" alt="Dentista" />
-                  <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=80&h=80&fit=crop&q=80" alt="Dentista" />
-                  <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=80&h=80&fit=crop&q=80" alt="Dentista" />
+                <div className="av-cluster av-cluster--css">
+                  <span className="av-dot av-dot--1" aria-hidden="true"></span>
+                  <span className="av-dot av-dot--2" aria-hidden="true"></span>
+                  <span className="av-dot av-dot--3" aria-hidden="true"></span>
+                  <span className="av-dot av-dot--4" aria-hidden="true"></span>
+                  <span className="av-dot av-dot--5" aria-hidden="true">★</span>
                 </div>
                 <p className="hero-social-txt"><strong>+200 dentistas</strong> já confiam na DentSite</p>
               </div>
@@ -740,7 +740,7 @@ export default function Landing() {
       <section className="garantia">
         <div className="wrap">
           <div className="g-box rv">
-            <img src="files/selo-garantia-7dias-azul.png" alt="Selo de garantia de 7 dias" className="g-shield" width="140" height="140" />
+            <img src="files/selo-garantia-7dias-azul.png" alt="Selo de garantia de 7 dias" className="g-shield" width="140" height="140" loading="lazy" />
             <h2 className="g-t">Garantia de 7 dias ou seu dinheiro de volta</h2>
             <p className="g-p">Experimente sem risco. Se nos primeiros 7 dias você não ficar satisfeito, basta chamar o suporte e devolvemos <strong style={{ color: 'var(--tiffany)' }}>100% do valor pago</strong>. A confiança é toda sua.</p>
           </div>

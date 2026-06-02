@@ -434,6 +434,14 @@ body{font-family:var(--font-b);background:var(--abyss);color:var(--white);line-h
 .av-cluster img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--abyss);margin-left:-10px;transition:transform .2s}
 .av-cluster img:first-child{margin-left:0}
 .av-cluster img:hover{transform:scale(1.15) translateY(-2px);z-index:2}
+.av-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--abyss);margin-left:-10px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--abyss);transition:transform .2s}
+.av-dot:first-child{margin-left:0}
+.av-dot--1{background:linear-gradient(135deg,#3DE0C0,#1FA88E)}
+.av-dot--2{background:linear-gradient(135deg,#6AA8E0,#3D78C0)}
+.av-dot--3{background:linear-gradient(135deg,#3DE0C0,#6AA8E0)}
+.av-dot--4{background:linear-gradient(135deg,#1FA88E,#5681A8)}
+.av-dot--5{background:linear-gradient(135deg,#3DE0C0,#1FA88E);color:var(--abyss)}
+.av-dot:hover{transform:scale(1.15) translateY(-2px);z-index:2}
 .hero-social-txt{font-size:13px;color:var(--blue)}
 .hero-social-txt strong{color:var(--tiffany);font-weight:700}
 
