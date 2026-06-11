@@ -432,12 +432,12 @@ export default function Landing() {
                 <span>Garantia de 7 dias</span>
               </div>
               <div className="hero-social">
-                <div className="av-cluster av-cluster--css">
-                  <span className="av-dot av-dot--1" aria-hidden="true"></span>
-                  <span className="av-dot av-dot--2" aria-hidden="true"></span>
-                  <span className="av-dot av-dot--3" aria-hidden="true"></span>
-                  <span className="av-dot av-dot--4" aria-hidden="true"></span>
-                  <span className="av-dot av-dot--5" aria-hidden="true">★</span>
+                <div className="av-cluster">
+                  <img src="/avatars/1f.webp" alt="" width="36" height="36" decoding="async" />
+                  <img src="/avatars/2m.webp" alt="" width="36" height="36" decoding="async" />
+                  <img src="/avatars/3f.webp" alt="" width="36" height="36" decoding="async" />
+                  <img src="/avatars/4m.webp" alt="" width="36" height="36" decoding="async" />
+                  <img src="/avatars/5f.webp" alt="" width="36" height="36" decoding="async" />
                 </div>
                 <p className="hero-social-txt"><strong>+200 dentistas</strong> já confiam na DentSite</p>
               </div>
