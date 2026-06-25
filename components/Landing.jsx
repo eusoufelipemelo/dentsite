@@ -127,7 +127,7 @@ export default function Landing() {
     const LINK_MENSAL_FULL = 'https://link.infinitepay.io/outboxgroup/Ri1D-XHsQKftV02-3564,00';
     const PIX_FULL = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup52040000530398654073264.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCCu0xk7szzgZRzJUoU0qmV863049F26';
     // Links com cupom DRFREDCRUVINEL (R$ 100/mês ou R$ 900 anual à vista)
-    const LINK_MENSAL_DISC = 'https://link.infinitepay.io/outboxgroup/Ri1D-ItE6M9DSLf-1200,00';
+    const LINK_MENSAL_DISC = 'https://invoice.infinitepay.io/plans/outboxgroup/fjpDpP3oJh';
     const PIX_DISC = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup5204000053039865406900.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCCQXPP28xgx47Kr8dFKh6te63043664';
     const WA_URL = 'https://wa.me/5547996597775?text=' + encodeURIComponent('Olá, vi que veio através da DentSite, como posso ajudar?');
     const openModal = () => {
