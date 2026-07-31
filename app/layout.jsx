@@ -18,9 +18,9 @@ const SITE = 'https://dentsite-lp.vercel.app';
 
 export const metadata = {
   metadataBase: new URL(SITE),
-  title: 'DentSite — Site Odontológico por Assinatura',
+  title: 'DentSite — Site Odontológico com Desenvolvimento Grátis',
   description:
-    'Site totalmente personalizado para sua clínica odontológica por uma assinatura simples. Sem custo de criação. Otimizado para Google e IA. Garantia de 7 dias.',
+    'Site totalmente personalizado para sua clínica odontológica com desenvolvimento 100% grátis. Você paga só a hospedagem anual (R$ 1.200 no cartão). Otimizado para Google e IA. Garantia de 7 dias.',
   icons: {
     icon: '/files/dentsite-favicon.svg',
     shortcut: '/files/dentsite-favicon.svg',
@@ -29,9 +29,9 @@ export const metadata = {
     type: 'website',
     url: SITE + '/',
     siteName: 'DentSite',
-    title: 'DentSite — Site odontológico por assinatura · R$ 100/mês',
+    title: 'DentSite — Site odontológico com desenvolvimento grátis',
     description:
-      'Site exclusivo para sua clínica odontológica por uma assinatura simples. Sem custo de criação. Otimizado para Google + IA. Pronto em 3 dias úteis.',
+      'Site exclusivo para sua clínica odontológica com desenvolvimento 100% grátis. Você paga só R$ 1.200 no cartão pela hospedagem anual. Otimizado para Google + IA. Pronto em 3 dias úteis.',
     images: [
       {
         url: '/files/dentsite-og.png',
@@ -44,9 +44,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DentSite — Site odontológico por assinatura · R$ 100/mês',
+    title: 'DentSite — Site odontológico com desenvolvimento grátis',
     description:
-      'Site exclusivo para a sua clínica por uma assinatura simples. Sem custo de criação. Pronto em 3 dias úteis.',
+      'Site exclusivo para sua clínica com desenvolvimento 100% grátis. Você paga só R$ 1.200 no cartão pela hospedagem anual. Pronto em 3 dias úteis.',
     images: ['/files/dentsite-og.png'],
   },
 };

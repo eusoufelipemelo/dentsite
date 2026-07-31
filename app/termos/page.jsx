@@ -21,29 +21,26 @@ export default function Termos() {
 
       <div className="lsec">
         <h2><span className="num">02</span> O serviço contratado</h2>
-        <p>A DentSite funciona em modelo de <strong>assinatura</strong>. Mediante adesão, desenvolvemos um site institucional (one page) totalmente personalizado para a sua clínica, com base nas informações e materiais fornecidos por você no briefing. A assinatura inclui:</p>
+        <p>A DentSite trabalha com um modelo de <strong>desenvolvimento gratuito + hospedagem anual</strong>. Mediante contratação da hospedagem, desenvolvemos um site institucional (one page) totalmente personalizado para a sua clínica, com base nas informações e materiais fornecidos por você no briefing. O plano inclui:</p>
         <ul>
-          <li>Criação do site (sem custo de criação);</li>
-          <li>Hospedagem e manutenção técnica enquanto a assinatura estiver vigente;</li>
+          <li><strong>Desenvolvimento do site sem custo</strong> (R$ 0 pela criação);</li>
+          <li>Hospedagem em servidor próprio por 12 meses;</li>
+          <li>Manutenção técnica e atualizações durante o período contratado;</li>
           <li>Certificado de segurança (SSL) e otimizações de SEO e GEO;</li>
-          <li>Suporte e atualizações contínuas;</li>
+          <li>Suporte contínuo;</li>
           <li>Entrega em até <strong>3 dias úteis</strong> após o envio completo do briefing e das fotos.</li>
         </ul>
       </div>
 
       <div className="lsec">
-        <h2><span className="num">03</span> Assinatura e contrato anual</h2>
-        <p>O modelo da DentSite é de <strong>assinatura mensal com contrato anual</strong>. Não há custo de criação — a mensalidade cobre o pacote completo descrito acima. Você pode optar entre:</p>
-        <ul>
-          <li><strong>Cartão de crédito</strong> — assinatura mensal recorrente;</li>
-          <li><strong>PIX à vista</strong> — assinatura anual com desconto.</li>
-        </ul>
-        <p>O <strong>contrato é de 12 meses</strong> a partir da adesão. Esse modelo é o que viabiliza a oferta sem custo de criação, com manutenção, suporte e atualizações ao longo de todo o período. Não trabalhamos com boleto bancário.</p>
+        <h2><span className="num">03</span> Pagamento e plano anual</h2>
+        <p>O valor da hospedagem anual é de <strong>R$ 1.200,00 à vista no cartão de crédito</strong> (valor promocional; preço cheio de referência R$ 1.600,00), cobrindo 12 meses de serviço. Não há mensalidades adicionais nem taxa de criação. O parcelamento no cartão segue as condições do processador de pagamento (InfinitePay). Não trabalhamos com boleto bancário.</p>
+        <p>Ao completar 12 meses, você pode <strong>renovar a hospedagem</strong> pelo mesmo valor anual para manter o site no ar com todos os serviços, sem obrigatoriedade e sem multa em caso de não renovação.</p>
       </div>
 
       <div className="lsec">
         <h2><span className="num">04</span> Garantia de 7 dias</h2>
-        <p>Você conta com <strong>garantia de 7 dias</strong> a partir da adesão da assinatura. Se, dentro desse prazo, não ficar satisfeito, basta entrar em contato com o suporte que reembolsamos <strong>100% do valor pago</strong>, sem burocracia. Após os 7 dias, passa a vigorar o contrato anual.</p>
+        <p>Você conta com <strong>garantia de 7 dias</strong> a partir da contratação. Se, dentro desse prazo, não ficar satisfeito, basta entrar em contato com o suporte que reembolsamos <strong>100% do valor pago</strong>, sem burocracia. Após os 7 dias, o plano anual segue vigente pelos 12 meses contratados.</p>
       </div>
 
       <div className="lsec">
@@ -58,7 +55,7 @@ export default function Termos() {
 
       <div className="lsec">
         <h2><span className="num">06</span> Propriedade do conteúdo</h2>
-        <p>O <strong>conteúdo</strong> (textos, fotos e marca) fornecido por você permanece de sua propriedade. A <strong>estrutura técnica e a hospedagem</strong> são desenvolvidas e mantidas pela DentSite enquanto durar a assinatura.</p>
+        <p>O <strong>conteúdo</strong> (textos, fotos e marca) fornecido por você permanece de sua propriedade. A <strong>estrutura técnica e a hospedagem</strong> são desenvolvidas e mantidas pela DentSite enquanto o plano anual estiver ativo.</p>
       </div>
 
       <div className="lsec">

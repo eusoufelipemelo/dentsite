@@ -68,46 +68,19 @@ export default function Landing() {
     };
     document.querySelectorAll('.fq').forEach((b) => b.addEventListener('click', () => tog(b)));
 
-    // ── PLANOS / CUPOM ──
-    const plans = {
-      mensal: { label: 'Assinatura mensal', total: 'R$ 297/mês', price: 297, priceDisc: 100, sfx: '/mês', badge: 'R$ 297/mês' },
-      anual: { label: 'Assinatura anual no PIX', total: 'R$ 3.264 à vista', price: 3264, priceDisc: 900, sfx: ' à vista', badge: 'R$ 3.264 à vista' },
+    // ── PLANO ANUAL (único: hospedagem 12 meses no cartão) ──
+    const plan = {
+      label: 'Plano anual no cartão',
+      priceOld: 1600,
+      price: 1200,
+      sfx: '/ano',
     };
-    let coupon = null;
-    const sel = () => plans[document.querySelector('input[name=plano]:checked').value];
     const render = () => {
-      const p = sel();
-      document.getElementById('sp').textContent = p.label;
-      if (coupon) {
-        const disc = p.price - p.priceDisc;
-        document.getElementById('drow').style.display = 'flex';
-        document.getElementById('damt').textContent = `- R$ ${disc.toLocaleString('pt-BR')}`;
-        document.getElementById('stotal').textContent = `R$ ${p.priceDisc.toLocaleString('pt-BR')}${p.sfx}`;
-      } else {
-        document.getElementById('drow').style.display = 'none';
-        document.getElementById('stotal').textContent = p.total;
-      }
+      const sp = document.getElementById('sp');
+      const st = document.getElementById('stotal');
+      if (sp) sp.textContent = plan.label;
+      if (st) st.textContent = `R$ ${plan.price.toLocaleString('pt-BR')}${plan.sfx}`;
     };
-    const aplicar = () => {
-      const v = document.getElementById('ci').value.trim().toUpperCase();
-      const msg = document.getElementById('cmsg');
-      msg.className = 'cmsg';
-      if (v === 'DRFREDCRUVINEL') {
-        coupon = v; msg.className = 'cmsg ok';
-        msg.textContent = '✓ Cupom DRFREDCRUVINEL aplicado! Assinatura mensal por R$ 100/mês (ou R$ 900 no PIX anual).';
-      } else if (!v) {
-        msg.className = 'cmsg er';
-        msg.textContent = '× Digite um cupom antes de clicar em Aplicar.';
-      } else {
-        coupon = null; msg.className = 'cmsg er';
-        msg.textContent = '× Cupom inválido. Verifique o código e tente novamente.';
-      }
-      render();
-    };
-    document.querySelectorAll('input[name=plano]').forEach((i) => i.addEventListener('change', render));
-    document.querySelectorAll('.cbtn').forEach((b) => b.addEventListener('click', aplicar));
-    const ci = document.getElementById('ci');
-    if (ci) ci.addEventListener('keypress', (e) => { if (e.key === 'Enter') aplicar(); });
     render();
 
     // ── GLASS CARD GLOW (adiado — só hover-capable) ──
@@ -123,45 +96,16 @@ export default function Landing() {
     });
 
     // ── CHECKOUT MODAL ──
-    // Links sem cupom (preço cheio R$ 297/mês ou R$ 3.264 anual à vista)
-    const LINK_MENSAL_FULL = 'https://link.infinitepay.io/outboxgroup/Ri1D-XHsQKftV02-3564,00';
-    const PIX_FULL = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup52040000530398654073264.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCCu0xk7szzgZRzJUoU0qmV863049F26';
-    // Links com cupom DRFREDCRUVINEL (R$ 100/mês ou R$ 900 anual à vista)
-    const LINK_MENSAL_DISC = 'https://invoice.infinitepay.io/plans/outboxgroup/9AIytPAMSw';
-    const PIX_DISC = '00020101021226830014BR.GOV.BCB.PIX0136e2c89f98-c404-4314-8ab8-6602f4c5529b0221Pagamento outboxgroup5204000053039865406900.005802BR592551174401 GIOVANA JACOMO M6015BALNEARIO CAMBO62290525QRCCQXPP28xgx47Kr8dFKh6te63043664';
+    const LINK_ANUAL = 'https://invoice.infinitepay.io/plans/outboxgroup/9AIytPAMSw';
     const WA_URL = 'https://wa.me/5547996597775?text=' + encodeURIComponent('Olá, vi que veio através da DentSite, como posso ajudar?');
     const openModal = () => {
-      const p = sel();
-      const plano = document.querySelector('input[name=plano]:checked').value;
-      const isAnual = plano === 'anual';
-      const priceVal = coupon ? p.priceDisc : p.price;
-      document.getElementById('modal-plan-name').textContent = p.label;
-      document.getElementById('modal-plan-price').textContent = 'R$ ' + priceVal.toLocaleString('pt-BR');
-      document.getElementById('modal-plan-sfx').textContent = p.sfx;
-      const pixSection = document.getElementById('modal-pix');
-      const cardInstr = document.getElementById('modal-card-instructions');
+      document.getElementById('modal-plan-name').textContent = plan.label;
+      document.getElementById('modal-plan-price').textContent = 'R$ ' + plan.price.toLocaleString('pt-BR');
+      document.getElementById('modal-plan-sfx').textContent = plan.sfx;
       const payBtn = document.getElementById('modal-pay-link');
-      // Seleciona link/PIX conforme cupom DRFREDCRUVINEL
-      const pixString = coupon ? PIX_DISC : PIX_FULL;
-      const linkMensal = coupon ? LINK_MENSAL_DISC : LINK_MENSAL_FULL;
-      if (isAnual) {
-        pixSection.classList.add('active');
-        cardInstr.style.display = 'none';
-        payBtn.style.display = 'none';
-        document.getElementById('pix-qr-img').src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=3DE0C0&bgcolor=040E1F&qzone=2&data=' + encodeURIComponent(pixString);
-        document.getElementById('pix-code-txt').textContent = pixString;
-        document.getElementById('pix-lbl').textContent = `PIX Copia e Cola — R$ ${priceVal.toLocaleString('pt-BR')},00`;
-      } else {
-        pixSection.classList.remove('active');
-        cardInstr.style.display = 'block';
-        payBtn.style.display = 'flex';
-        payBtn.href = linkMensal;
-        // Garante a navegação mesmo se algum bloqueador interferir no <a target>
-        payBtn.onclick = (ev) => {
-          ev.preventDefault();
-          window.location.href = linkMensal;
-        };
-      }
+      payBtn.style.display = 'flex';
+      payBtn.href = LINK_ANUAL;
+      payBtn.onclick = (ev) => { ev.preventDefault(); window.location.href = LINK_ANUAL; };
       document.getElementById('modal-wa-link').href = WA_URL;
       const bg = document.getElementById('modal-bg');
       const card = bg.querySelector('.modal');
@@ -181,16 +125,6 @@ export default function Landing() {
         });
       });
       document.body.style.overflow = 'hidden';
-    };
-    const copyPix = () => {
-      // Lê o PIX exibido atualmente (depende do cupom + plano)
-      const code = document.getElementById('pix-code-txt').textContent || '';
-      navigator.clipboard.writeText(code).then(() => {
-        const btn = document.getElementById('pix-copy-btn');
-        btn.textContent = '✓ Copiado!';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2500);
-      });
     };
     const closeModal = () => {
       const bg = document.getElementById('modal-bg');
@@ -212,7 +146,6 @@ export default function Landing() {
     };
     document.querySelector('.oferta-bd .btn-full')?.addEventListener('click', openModal);
     document.querySelector('.modal-close')?.addEventListener('click', closeModal);
-    document.getElementById('pix-copy-btn')?.addEventListener('click', copyPix);
     const mbg = document.getElementById('modal-bg');
     const onBgClick = function (e) { if (e.target === this) closeModal(); };
     if (mbg) mbg.addEventListener('click', onBgClick);
@@ -310,35 +243,21 @@ export default function Landing() {
         <div className="modal">
           <div className="modal-hd">
             <button className="modal-close" aria-label="Fechar">✕</button>
-            <p className="modal-badge">Iniciar assinatura</p>
-            <h2 className="modal-title" id="modal-title">Sua assinatura está quase ativada</h2>
-            <p className="modal-subtitle">Confirme o pagamento e chame a gente pelo WhatsApp para começarmos seu site.</p>
+            <p className="modal-badge">Contratar hospedagem</p>
+            <h2 className="modal-title" id="modal-title">Seu site está quase pronto pra começar</h2>
+            <p className="modal-subtitle">Conclua o pagamento anual no cartão e chame a gente pelo WhatsApp para começarmos seu site.</p>
           </div>
           <div className="modal-body">
             <div className="modal-plan">
               <div className="modal-plan-l">
-                <strong id="modal-plan-name">Assinatura mensal</strong>
-                <span>Contrato anual · Tudo incluído</span>
+                <strong id="modal-plan-name">Plano anual no cartão</strong>
+                <span>Desenvolvimento GRÁTIS · Hospedagem por 12 meses</span>
               </div>
-              <div className="modal-plan-r"><span id="modal-plan-price">R$ 297</span><sub id="modal-plan-sfx">/mês</sub></div>
+              <div className="modal-plan-r"><span id="modal-plan-price">R$ 1.200</span><sub id="modal-plan-sfx">/ano</sub></div>
             </div>
             <div className="modal-divider"></div>
 
-      
-            <div className="modal-pix" id="modal-pix">
-              <p className="pix-lbl" id="pix-lbl">PIX Copia e Cola</p>
-              <div className="pix-qr">
-                <img id="pix-qr-img" alt="QR Code PIX" width="164" height="164" />
-              </div>
-              <div className="pix-row">
-                <div className="pix-code" id="pix-code-txt" title="Código PIX"></div>
-                <button className="pix-cbtn" id="pix-copy-btn">Copiar</button>
-              </div>
-              <p style={{ fontSize: '11px', color: 'var(--muted)', textAlign: 'center', marginTop: '8px' }}>Após copiar, abra o app do seu banco e escolha <strong style={{ color: 'var(--blue)' }}>PIX → Copia e Cola</strong></p>
-            </div>
-
-      
-            <p id="modal-card-instructions" className="modal-instructions">Clique em <strong style={{ color: 'var(--white)' }}>Ir para o pagamento</strong>, realize a assinatura e depois clique em <strong style={{ color: '#25D366' }}>Já paguei → WhatsApp</strong> para confirmar com a nossa equipe e começarmos seu site.</p>
+            <p id="modal-card-instructions" className="modal-instructions">Clique em <strong style={{ color: 'var(--white)' }}>Ir para o pagamento</strong>, conclua o pagamento anual no cartão de crédito e depois clique em <strong style={{ color: '#25D366' }}>Já paguei → WhatsApp</strong> para confirmar com a nossa equipe e começarmos seu site.</p>
             <a id="modal-pay-link" href="#" rel="noopener" className="modal-btn-pay">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
               Ir para o pagamento
@@ -419,15 +338,15 @@ export default function Landing() {
         <div className="wrap" style={{ position: 'relative', zIndex: '2', width: '100%' }}>
           <div className="hero-in">
             <div className="hero-content">
-              <div className="hero-badge"><span className="dot"></span>Site por Assinatura · Tecnologia LLM + IA</div>
-              <h1 className="hero-h1">Seu consultório com um site exclusivo <span className="hi">por assinatura. No ar em 3 dias úteis.</span></h1>
-              <p className="hero-sub">Como uma assinatura de streaming, mas para a sua clínica. <strong>Sem custo de criação.</strong> Você paga uma mensalidade simples que cobre tudo: site totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. Contrato anual.</p>
+              <div className="hero-badge"><span className="dot"></span>Desenvolvimento GRÁTIS · Tecnologia LLM + IA</div>
+              <h1 className="hero-h1">Seu site odontológico com <span className="hi">desenvolvimento 100% grátis. No ar em 3 dias úteis.</span></h1>
+              <p className="hero-sub"><strong>Você não paga nada pelo desenvolvimento do seu site.</strong> Investe apenas na hospedagem anual — por R$ 1.200 no cartão (de R$ 1.600). Design totalmente personalizado, otimizado para Google e para as buscas com inteligência artificial. Sem mensalidade.</p>
               <div className="hero-acts">
                 <a href="#planos" className="btn btn-p btn-lg">Quero meu site agora <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                 <a href="#como-funciona" className="btn btn-o">Ver como funciona</a>
               </div>
               <div className="hero-mc">
-                <span>Tudo incluído na assinatura</span>
+                <span>R$ 0 de desenvolvimento</span>
                 <span>Pronto em 3 dias úteis</span>
                 <span>Garantia de 7 dias</span>
               </div>
@@ -447,7 +366,7 @@ export default function Landing() {
               <div className="stats-grid">
                 <div className="stat"><div className="stat-n" id="cnt-3">3</div><div className="stat-l">dias úteis para ir ao ar</div></div>
                 <div className="stat"><div className="stat-n" id="cnt-100">100%</div><div className="stat-l">responsivo, mobile-first</div></div>
-                <div className="stat"><div className="stat-n" id="cnt-0">R$ 0</div><div className="stat-l">de setup. Só a mensalidade.</div></div>
+                <div className="stat"><div className="stat-n" id="cnt-0">R$ 0</div><div className="stat-l">de desenvolvimento. Só hospedagem.</div></div>
                 <div className="stat"><div className="stat-n" id="cnt-7">7d</div><div className="stat-l">garantia de reembolso total</div></div>
               </div>
             </div>
@@ -461,7 +380,7 @@ export default function Landing() {
           <div className="marquee-row">
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Site no ar em <strong>3 dias úteis</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Garantia de <strong>7 dias</strong></div>
-            <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Sem <strong>custo de criação</strong></div>
+            <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Desenvolvimento <strong>GRÁTIS</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>Otimizado para <strong>Google + IA</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Design <strong>responsivo</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Certificado <strong>SSL incluso</strong></div>
@@ -472,7 +391,7 @@ export default function Landing() {
           <div className="marquee-row" aria-hidden="true">
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Site no ar em <strong>3 dias úteis</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Garantia de <strong>7 dias</strong></div>
-            <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Sem <strong>custo de criação</strong></div>
+            <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Desenvolvimento <strong>GRÁTIS</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>Otimizado para <strong>Google + IA</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Design <strong>responsivo</strong></div>
             <div className="m-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Certificado <strong>SSL incluso</strong></div>
@@ -575,7 +494,7 @@ export default function Landing() {
           <div className="testi-grid">
             <div className="tcard rv">
               <span className="tcard-quote">"</span>
-              <p className="tcard-q">Em menos de uma semana meu site estava no ar. Hoje apareço na primeira página do Google quando alguém pesquisa dentista no meu bairro. Vale cada centavo da assinatura.</p>
+              <p className="tcard-q">Em menos de uma semana meu site estava no ar. Hoje apareço na primeira página do Google quando alguém pesquisa dentista no meu bairro. E o melhor: paguei zero pelo desenvolvimento.</p>
               <div className="tcard-stars" style={{ marginTop: '16px' }}>★★★★★</div>
               <div className="tcard-top" style={{ marginTop: '16px', marginBottom: '0' }}>
                 <img className="tcard-av" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=120&h=120&fit=crop&q=80" alt="Dra. Camila Ferreira" loading="lazy" />
@@ -616,8 +535,8 @@ export default function Landing() {
       <section className="sec feat" id="recursos">
         <div className="wrap">
           <div className="feat-head rv">
-            <p className="lbl">Incluído na assinatura</p>
-            <h2 className="h2">Tudo o que sua clínica precisa,<br />em uma assinatura só</h2>
+            <p className="lbl">Incluído no plano</p>
+            <h2 className="h2">Tudo o que sua clínica precisa,<br />em uma página só</h2>
           </div>
           <div className="feat-grid">
             <div className="f-item rv"><div className="f-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3DE0C0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><h3 className="f-t">Design responsivo</h3><p className="f-p">Perfeito no celular, tablet e desktop. Seus pacientes acessam de qualquer dispositivo.</p></div>
@@ -659,54 +578,27 @@ export default function Landing() {
       <section className="sec oferta" id="planos">
         <div className="wrap">
           <div className="rv" style={{ textAlign: 'center' }}>
-            <p className="lbl">Assinatura</p>
-            <h2 className="h2">Site por Assinatura.<br />Sem custo de criação.</h2>
-            <p className="sub" style={{ maxWidth: '600px', margin: '0 auto' }}>Como uma assinatura de streaming, mas para o seu consultório. Sem custo de criação, sem dor de cabeça. A mensalidade cobre tudo: site totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. Contrato anual.</p>
+            <p className="lbl">Oferta</p>
+            <h2 className="h2">Desenvolvimento GRÁTIS.<br />Você paga só a hospedagem anual.</h2>
+            <p className="sub" style={{ maxWidth: '600px', margin: '0 auto' }}>Sem taxa de criação. Sem mensalidade. Um único investimento anual que cobre 12 meses de hospedagem, otimização e suporte. Design totalmente personalizado, otimizado para Google + IA.</p>
           </div>
           <div className="oferta-wrap rv d2">
             <div className="oferta-card">
               <div className="oferta-hd">
-                <p className="oferta-lbl">Plano DentSite</p>
-                <p className="oferta-from">Assinatura mensal a partir de</p>
-                <div className="oferta-price" id="price-show">R$ 297<sub>/mês</sub></div>
-                <p className="oferta-period">Contrato anual · Sem custo de criação</p>
+                <p className="oferta-lbl">Plano Anual DentSite</p>
+                <p className="oferta-from"><span style={{ textDecoration: 'line-through', color: 'var(--muted)', fontWeight: '500', marginRight: '10px' }}>de R$ 1.600</span>por apenas</p>
+                <div className="oferta-price" id="price-show">R$ 1.200<sub>/ano</sub></div>
+                <p className="oferta-period">À vista no cartão de crédito · Hospedagem por 12 meses</p>
               </div>
               <div className="oferta-bd">
-                <p className="field-lbl">Como você quer pagar</p>
-                <div className="plan-sel">
-                  <div className="po">
-                    <input type="radio" name="plano" id="mensal" value="mensal" defaultChecked />
-                    <label htmlFor="mensal" className="po-lbl">
-                      <span className="po-t">💳 Assinatura mensal</span>
-                      <span className="po-d">Cartão recorrente · contrato anual</span>
-                      <span className="po-badge" id="pm">R$ 297/mês</span>
-                    </label>
-                  </div>
-                  <div className="po">
-                    <input type="radio" name="plano" id="anual" value="anual" />
-                    <label htmlFor="anual" className="po-lbl">
-                      <span className="po-t">⚡ Anual no PIX</span>
-                      <span className="po-d">À vista — 1 mês grátis</span>
-                      <span className="po-badge" style={{ color: 'var(--gold)' }} id="pa">R$ 3.264 à vista</span>
-                    </label>
-                  </div>
-                </div>
-
-                <p className="field-lbl">Cupom de desconto</p>
-                <div className="coupon-row">
-                  <input type="text" className="cf" id="ci" placeholder="Digite seu cupom aqui" />
-                  <button type="button" className="cbtn">Aplicar</button>
-                </div>
-                <div className="cmsg" id="cmsg"></div>
-
                 <div className="order-sum">
-                  <div className="or"><span>Plano selecionado</span><span id="sp">Assinatura mensal</span></div>
-                  <div className="or"><span>Custo de criação</span><span style={{ color: 'var(--tiffany)', fontWeight: '700' }}>R$ 0</span></div>
-                  <div className="or" id="drow" style={{ display: 'none' }}><span>Desconto cupom</span><span className="dk" id="damt"></span></div>
-                  <div className="or or-total"><span>Total</span><span id="stotal">R$ 297/mês</span></div>
+                  <div className="or"><span>Plano selecionado</span><span id="sp">Plano anual no cartão</span></div>
+                  <div className="or"><span>Desenvolvimento do site</span><span style={{ color: 'var(--tiffany)', fontWeight: '700' }}>GRÁTIS</span></div>
+                  <div className="or"><span>Hospedagem 12 meses</span><span>R$ 1.200</span></div>
+                  <div className="or or-total"><span>Total</span><span id="stotal">R$ 1.200/ano</span></div>
                 </div>
 
-                <button type="button" className="btn btn-p btn-full">Iniciar minha assinatura 🔒</button>
+                <button type="button" className="btn btn-p btn-full">Contratar hospedagem anual 🔒</button>
                 <div className="trust-note">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   Pagamento processado em ambiente seguro e criptografado
@@ -724,14 +616,13 @@ export default function Landing() {
             <h2 className="h2" style={{ color: 'var(--abyss)' }}>Perguntas frequentes</h2>
           </div>
           <div className="faq-list">
-            <div className="fi rv"><button className="fq">Como o site pode ser sem custo de criação?<span className="fi-ico">+</span></button><div className="fa"><p>Porque o nosso modelo é <strong>por assinatura</strong>, como um Netflix. Em vez de você pagar um valor alto pela criação, paga uma <strong>mensalidade simples</strong> que cobre tudo: design totalmente personalizado, hospedagem, otimização para Google + IA, suporte e atualizações. O contrato anual é o que torna esse modelo possível.</p></div></div>
+            <div className="fi rv"><button className="fq">Como o desenvolvimento pode ser realmente grátis?<span className="fi-ico">+</span></button><div className="fa"><p>Porque o nosso modelo é diferente: em vez de cobrar caro pelo desenvolvimento, oferecemos <strong>R$ 0 de custo de criação</strong> em troca de você contratar a <strong>hospedagem anual (R$ 1.200 no cartão)</strong>. É essa hospedagem que viabiliza mantermos seu site no ar com performance, otimização e suporte contínuo — enquanto você garante um site profissional sem investimento inicial alto.</p></div></div>
             <div className="fi rv"><button className="fq">Em quanto tempo meu site fica pronto?<span className="fi-ico">+</span></button><div className="fa"><p>O prazo de entrega é de <strong>3 dias úteis</strong> após o envio completo do briefing e das fotos. Você recebe um link de revisão e só vai ao ar com a sua aprovação.</p></div></div>
             <div className="fi rv"><button className="fq">E se eu não gostar? Tem garantia?<span className="fi-ico">+</span></button><div className="fa"><p>Sim. Você tem <strong>garantia de 7 dias com reembolso de 100%</strong>. Se dentro desse período você não estiver satisfeito, é só chamar o suporte e devolvemos todo o valor pago, sem burocracia.</p></div></div>
-            <div className="fi rv"><button className="fq">Como funciona o pagamento?<span className="fi-ico">+</span></button><div className="fa"><p>Você escolhe entre <strong>cartão de crédito</strong> (assinatura mensal recorrente) ou <strong>PIX à vista</strong> (assinatura anual com desconto). Não trabalhamos com boleto.</p></div></div>
-            <div className="fi rv"><button className="fq">O que está incluso na assinatura?<span className="fi-ico">+</span></button><div className="fa"><p>Tudo. Site totalmente personalizado para a sua clínica, hospedagem em servidor próprio, certificado SSL, otimização SSEO + GEO, WhatsApp flutuante, Google Maps, formulário de contato, atualizações e suporte contínuo. Não há custos extras.</p></div></div>
-            <div className="fi rv"><button className="fq">Posso usar um cupom de desconto?<span className="fi-ico">+</span></button><div className="fa"><p>Sim! No checkout há um campo para inserir o cupom antes de finalizar. Aplique antes de concluir o pagamento para ver o desconto refletido no resumo.</p></div></div>
-            <div className="fi rv"><button className="fq">Como funciona o contrato anual?<span className="fi-ico">+</span></button><div className="fa"><p>O contrato é de <strong>12 meses</strong>, como uma assinatura anual de qualquer serviço digital. Esse modelo é o que viabiliza a oferta sem custo de criação, com manutenção e suporte contínuos. Você tem 7 dias de garantia para testar sem risco e, depois desse período, o contrato anual passa a vigorar.</p></div></div>
-            <div className="fi rv"><button className="fq">Eu sou dono do meu site?<span className="fi-ico">+</span></button><div className="fa"><p>O conteúdo (textos, fotos e marca) é todo seu. A estrutura técnica e a hospedagem são mantidas pela DentSite enquanto durar a assinatura.</p></div></div>
+            <div className="fi rv"><button className="fq">Como funciona o pagamento?<span className="fi-ico">+</span></button><div className="fa"><p>É simples: <strong>R$ 1.200 à vista no cartão de crédito</strong> (de R$ 1.600), pagando de uma vez o plano anual de hospedagem. Você pode parcelar no seu cartão conforme as condições da InfinitePay. Sem mensalidade recorrente, sem cobranças escondidas.</p></div></div>
+            <div className="fi rv"><button className="fq">O que está incluso no plano anual?<span className="fi-ico">+</span></button><div className="fa"><p>Tudo. <strong>Desenvolvimento do site (GRÁTIS)</strong>, hospedagem em servidor próprio por 12 meses, certificado SSL, otimização SSEO + GEO, WhatsApp flutuante, Google Maps, formulário de contato, atualizações e suporte contínuo. Não há custos extras.</p></div></div>
+            <div className="fi rv"><button className="fq">O que acontece após os 12 meses?<span className="fi-ico">+</span></button><div className="fa"><p>Ao completar os 12 meses, você pode <strong>renovar a hospedagem</strong> pelo mesmo valor anual para manter o site no ar com todos os serviços. Sem obrigatoriedade de renovação e sem multa se optar por não continuar.</p></div></div>
+            <div className="fi rv"><button className="fq">Eu sou dono do meu site?<span className="fi-ico">+</span></button><div className="fa"><p>O conteúdo (textos, fotos e marca) é todo seu. A estrutura técnica e a hospedagem são mantidas pela DentSite enquanto o plano anual estiver ativo.</p></div></div>
             <div className="fi rv"><button className="fq">Que tecnologia vocês usam?<span className="fi-ico">+</span></button><div className="fa"><p>Construímos com <strong>LLMs (IA)</strong> e <strong>WebDev 3.0</strong>, com otimização SSEO e GEO — para o Google e também para as buscas por inteligências artificiais como ChatGPT e Gemini.</p></div></div>
           </div>
         </div>
@@ -752,12 +643,12 @@ export default function Landing() {
           <div className="rv">
             <p className="lbl" style={{ textAlign: 'center' }}>Não perca mais tempo</p>
             <h2 className="h2" style={{ textAlign: 'center', fontSize: 'clamp(30px,5vw,56px)' }}>Seu próximo paciente está pesquisando agora.<br /><span style={{ color: 'var(--tiffany)' }}>Apareça para ele.</span></h2>
-            <p className="cta-sub">Sem custo de criação. Pronto em 3 dias úteis. Garantia de 7 dias.</p>
+            <p className="cta-sub">Desenvolvimento GRÁTIS. Só R$ 1.200 no cartão. Pronto em 3 dias úteis.</p>
             <div style={{ textAlign: 'center' }}>
               <a href="#planos" className="btn btn-p btn-lg" style={{ fontSize: '19px', padding: '24px 60px' }}>Quero meu site agora <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
             <div className="cta-mc">
-              <span>Sem custo de criação</span>
+              <span>R$ 0 de desenvolvimento</span>
               <span>Pronto em 3 dias úteis</span>
               <span>Garantia de 7 dias</span>
             </div>
